@@ -31,6 +31,7 @@ public class ContollerCalculator {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            viewCalculator.setTFActions(viewCalculator.getTFActions() + "+");
         }
 
     }
