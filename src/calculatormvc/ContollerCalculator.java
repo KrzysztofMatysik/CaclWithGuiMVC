@@ -23,6 +23,7 @@ public class ContollerCalculator {
 
         this.viewCalculator.bNumberOneActionListener(new AddNumerbOne());
         this.viewCalculator.bAdditionActionListener(new AdditionListener());
+        this.viewCalculator.bEqualActionActionListener(new EqualsListener());
 
     }
 
@@ -46,5 +47,18 @@ public class ContollerCalculator {
         }
 
     }
+    
+    class EqualsListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            actionModel.calculatingResult(viewCalculator.getTFActions().toString());
+            //viewCalculator.setCleanTFActions();
+            viewCalculator.setTFActions(String.valueOf(actionModel.getSolution()));
+        }
+        
+        
+    } 
 
 }

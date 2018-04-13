@@ -11,25 +11,36 @@ package calculatormvc;
  */
 public class ModelCalculator {
 
-    private double solution;
-    private double[] partialNumbers = new double[100];
+    private double solution, firstNumber, secondNumber;
 
-    private void additionAction(double... numbers) {
+    private boolean whetherMathOperAdd = false;
+    private boolean whetherMathOperSub = false;
+    private boolean whetherMathOperMul = false;
+    private boolean whetherMathOperDiv = false;
+    private boolean whetherMathOper = false;
 
-        for (double d : numbers) {
-            solution += d;
-        }
+    private String tmpPartialValue = "";
+
+    public double getSolution() {
+        return solution;
     }
 
-    private void substractionAction(double... numbers) {
+    public void additionAction(double firstNumber, double secondNumber) {
+
+        solution = firstNumber + secondNumber;
+        whetherMathOperAdd = false;
+    }
+
+    public void substractionAction(double... numbers) {
 
         for (double d : numbers) {
             solution -= d;
-        }
 
+        }
+        whetherMathOperSub = false;
     }
 
-    private void multiplicationAction(double... numbers) {
+    public void multiplicationAction(double... numbers) {
 
         for (int i = 0; i < numbers.length; i++) {
 
@@ -39,9 +50,10 @@ public class ModelCalculator {
                 solution *= numbers[i];
             }
         }
+        whetherMathOperMul = false;
     }
 
-    private void divisionAction(double... numbers) {
+    public void divisionAction(double... numbers) {
 
         for (int i = 0; i < numbers.length; i++) {
 
@@ -51,12 +63,102 @@ public class ModelCalculator {
                 solution /= numbers[i];
             }
         }
+        whetherMathOperDiv = false;
+    }
+
+    public void calculatingResult(String text) {
+
+        char[] tmpChar = text.toCharArray();
+        double tmpPartialValue = 0;
+
+        for (int i = 0; i < tmpChar.length; i++) {
+
+            switch (tmpChar[i]) {
+
+                case '+':
+                    savePartialValue();
+                    checkWhaterOper();
+                    //checkLastSign(i, tmpChar.length);
+                    whetherMathOperAdd = true;
+                    break;
+                case '-':
+                    savePartialValue();
+                    whetherMathOperSub = true;
+                    break;
+                case '/':
+                    whetherMathOperDiv = true;
+                    break;
+                case '*':
+                    whetherMathOperMul = true;
+                    break;
+                case '.':
+                    break;
+                default:
+                    partialValue(tmpChar[i]);
+                    checkLast(i, tmpChar.length);
+
+            }
+
+        }
+    }
+
+    public void partialValue(char number) {
+
+        tmpPartialValue += number;
+
+    }
+
+    public void savePartialValue() {
+
+        if (whetherMathOper == false) {
+            firstNumber = Double.valueOf(tmpPartialValue);
+            tmpPartialValue="";
+        } else {
+            secondNumber = Double.valueOf(tmpPartialValue);
+            tmpPartialValue="";
+        }
+
+    }
+
+    public void checkWhaterOper() {
+
+        if (whetherMathOper == true) {
+            if (whetherMathOperAdd == true) {
+                additionAction(this.firstNumber, this.secondNumber);
+            } else if (whetherMathOperSub == true) {
+                substractionAction(this.firstNumber, this.secondNumber);
+            } else if (whetherMathOperMul == true) {
+                multiplicationAction(this.firstNumber, this.secondNumber);
+            } else if (whetherMathOperDiv == true) {
+                divisionAction(this.firstNumber, this.secondNumber);
+            }
+
+        } else {
+
+            whetherMathOper = true;
+        }
+    }
+
+    public double checkLast(int valueI, int valueText) {
+
+        if ((valueI) == valueText-1) {
+            savePartialValue();
+            checkWhaterOper();
+            return solution;
+
+        } else {
+            return Double.MIN_VALUE;
+        }
     }
     
-    private String enteringNumberOne(){
+    public void checkLastSign(){
         
+        
+    }
+
+    public String enteringNumberOne() {
+
         return "1".toString();
     }
-    
 
 }
