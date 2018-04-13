@@ -17,30 +17,35 @@ public class ViewCalculator extends javax.swing.JFrame {
      * Creates new form ViewCalculator
      */
     private String[] values;
-
+    
     public ViewCalculator() {
         initComponents();
     }
     
-    public void setTFActions(String text){
+    public void setTFActions(String text) {
         
         tFActions.setText(text);
     }
     
-    public String getTFActions(){
+    public String getTFActions() {
         
         return tFActions.getText();
     }
-
+    
     public void bAdditionActionListener(ActionListener actionListener) {
-
+        
         bAddition.addActionListener(actionListener);
-
+        
     }
-
+    
     public void bNumberOneActionListener(ActionListener numberOneActionListener) {
-
+        
         bNumberOne.addActionListener(numberOneActionListener);
+    }
+    
+    public void bEqualActionActionListener(ActionListener equalActionListener) {
+        
+        bEqualAction.addActionListener(equalActionListener);
     }
 
     /**
