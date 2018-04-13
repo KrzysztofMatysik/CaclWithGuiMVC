@@ -18,6 +18,7 @@ public class ModelCalculator {
     private boolean whetherMathOperMul = false;
     private boolean whetherMathOperDiv = false;
     private boolean whetherMathOper = false;
+    private boolean lastIsSign = false;
 
     private String tmpPartialValue = "";
 
@@ -76,10 +77,14 @@ public class ModelCalculator {
             switch (tmpChar[i]) {
 
                 case '+':
-                    savePartialValue();
-                    checkWhaterOper();
-                    //checkLastSign(i, tmpChar.length);
-                    whetherMathOperAdd = true;
+                    whetherLastSign(i, tmpChar.length, tmpChar[i]);
+                    if (lastIsSign == false) {
+                        savePartialValue();
+                        checkWhaterOper();
+                        whetherMathOperAdd = true;
+                    } else {
+                        lastIsSign = false;
+                    }
                     break;
                 case '-':
                     savePartialValue();
@@ -92,6 +97,7 @@ public class ModelCalculator {
                     whetherMathOperMul = true;
                     break;
                 case '.':
+                    partialValue(tmpChar[i]);
                     break;
                 default:
                     partialValue(tmpChar[i]);
@@ -112,10 +118,12 @@ public class ModelCalculator {
 
         if (whetherMathOper == false) {
             firstNumber = Double.valueOf(tmpPartialValue);
-            tmpPartialValue="";
+            tmpPartialValue = "";
         } else {
+
             secondNumber = Double.valueOf(tmpPartialValue);
-            tmpPartialValue="";
+            tmpPartialValue = "";
+
         }
 
     }
@@ -141,24 +149,58 @@ public class ModelCalculator {
 
     public double checkLast(int valueI, int valueText) {
 
-        if ((valueI) == valueText-1) {
+        if ((valueI) == valueText - 1) {
             savePartialValue();
             checkWhaterOper();
+            whetherMathOper = false;
             return solution;
 
         } else {
             return Double.MIN_VALUE;
         }
     }
-    
-    public void checkLastSign(){
-        
-        
+
+    public void whetherLastSign(int valueI, int valueText, char sign) {
+
+        if ((valueI) == valueText - 1) {
+
+            firstNumber = Double.valueOf(tmpPartialValue);
+            tmpPartialValue = "0";
+            secondNumber = firstNumber;
+            switch (sign) {
+                case '+':
+                    additionAction(this.firstNumber, this.secondNumber);
+                    break;
+                case '-':
+                    substractionAction(this.firstNumber, this.secondNumber);
+                    break;
+                case '*':
+                    multiplicationAction(this.firstNumber, this.secondNumber);
+                    break;
+                case '/':
+                    divisionAction(this.firstNumber, this.secondNumber);
+                    break;
+
+            }
+        }
+
     }
 
     public String enteringNumberOne() {
 
         return "1".toString();
+    }
+
+    public boolean checkLastSign(String text) {
+
+        char tmp = text.charAt(text.length() - 1);
+
+        if (tmp == '+' || tmp == '-' || tmp == '/' || tmp == '*') {
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
 }

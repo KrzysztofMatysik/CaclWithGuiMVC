@@ -32,7 +32,9 @@ public class ContollerCalculator {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            viewCalculator.setTFActions(viewCalculator.getTFActions() + "+");
+            if (actionModel.checkLastSign(String.valueOf(viewCalculator.getTFActions())) == true) {
+                viewCalculator.setTFActions(viewCalculator.getTFActions() + "+");
+            }
         }
 
     }
@@ -47,18 +49,17 @@ public class ContollerCalculator {
         }
 
     }
-    
-    class EqualsListener implements ActionListener{
+
+    class EqualsListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
             actionModel.calculatingResult(viewCalculator.getTFActions().toString());
             //viewCalculator.setCleanTFActions();
             viewCalculator.setTFActions(String.valueOf(actionModel.getSolution()));
         }
-        
-        
-    } 
+
+    }
 
 }
